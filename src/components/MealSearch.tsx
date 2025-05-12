@@ -1,12 +1,18 @@
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { mealService } from "../services/mealService";
 import type { Meal } from "../services/mealService";
 import { Box, Input, Grid, Text, Skeleton, Flex } from "@chakra-ui/react";
 import { MealCard } from "./MealCard";
+import { useSearchParams } from "react-router";
 
-export const MealSearch = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+export function MealSearch() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get("q") ?? "";
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchParams(value ? { q: value } : {});
+  };
 
   const {
     data: meals,
@@ -23,7 +29,7 @@ export const MealSearch = () => {
       <Box mb={6}>
         <Input
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={handleSearchChange}
           placeholder="Search for a meal..."
           size="lg"
         />
@@ -81,4 +87,4 @@ export const MealSearch = () => {
       </Grid>
     </Box>
   );
-};
+}
