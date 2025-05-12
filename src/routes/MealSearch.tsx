@@ -1,10 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import { mealService } from "../services/mealService";
-import type { Meal } from "../services/mealService";
-import { Box, Input, Grid, Text, Skeleton, Flex } from "@chakra-ui/react";
-import { MealCard } from "../components/MealCard";
-import { useSearchParams } from "react-router";
 import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Box, Input, Grid, Text, Skeleton, Flex } from "@chakra-ui/react";
+
+import { mealService } from "../services/mealService";
+import { useSearchParams } from "react-router";
 import { MealGrid } from "../components/MealGrid";
 
 export function MealSearch() {
