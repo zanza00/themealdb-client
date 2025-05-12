@@ -4,10 +4,14 @@ import type { Meal } from "../services/mealService";
 import { Box, Input, Grid, Text, Skeleton, Flex } from "@chakra-ui/react";
 import { MealCard } from "../components/MealCard";
 import { useSearchParams } from "react-router";
+import { useMemo } from "react";
 
 export function MealSearch() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const searchQuery = searchParams.get("q") ?? "";
+  const searchQuery = useMemo(
+    () => searchParams.get("q") ?? "",
+    [searchParams]
+  );
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -22,6 +26,7 @@ export function MealSearch() {
     queryKey: ["meals", searchQuery],
     queryFn: () => mealService.searchMeals(searchQuery),
     enabled: searchQuery.length > 0,
+    staleTime: 1000 * 60 * 60, // 1 hour
   });
 
   return (

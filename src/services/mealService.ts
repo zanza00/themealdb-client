@@ -4,37 +4,43 @@ export const mealService = {
   searchMeals: async (query: string): Promise<Meal[]> => {
     const response = await fetch(`${BASE_URL}/search.php?s=${query}`);
     const data: MealsResponse = await response.json();
-    return data.meals ?? [];
+    const meals = returnOrThrow(data);
+    return meals;
   },
 
-  getMealById: async (id: string): Promise<Meal | null> => {
+  getMealById: async (id: string): Promise<Meal> => {
     const response = await fetch(`${BASE_URL}/lookup.php?i=${id}`);
     const data: MealsResponse = await response.json();
-    return data.meals?.[0] ?? null;
+    const meal = returnOrThrow(data);
+    return meal[0];
   },
 
-  getRandomMeal: async (): Promise<Meal | null> => {
+  getRandomMeal: async (): Promise<Meal> => {
     const response = await fetch(`${BASE_URL}/random.php`);
     const data: MealsResponse = await response.json();
-    return data.meals?.[0] ?? null;
+    const meal = returnOrThrow(data);
+    return meal[0];
   },
 
   getMealsByCategory: async (category: string): Promise<Meal[]> => {
     const response = await fetch(`${BASE_URL}/filter.php?c=${category}`);
     const data: MealsResponse = await response.json();
-    return data.meals ?? [];
+    const meals = returnOrThrow(data);
+    return meals;
   },
 
   getMealsByArea: async (area: string): Promise<Meal[]> => {
     const response = await fetch(`${BASE_URL}/filter.php?a=${area}`);
     const data: MealsResponse = await response.json();
-    return data.meals ?? [];
+    const meals = returnOrThrow(data);
+    return meals;
   },
 
   getMealsByIngredient: async (ingredient: string): Promise<Meal[]> => {
     const response = await fetch(`${BASE_URL}/filter.php?i=${ingredient}`);
     const data: MealsResponse = await response.json();
-    return data.meals ?? [];
+    const meals = returnOrThrow(data);
+    return meals;
   },
 
   getIngredients: async (): Promise<Ingredient[]> => {
@@ -64,9 +70,20 @@ export const mealService = {
       `${BASE_URL}/filter.php?a=${area}&c=${category}&i=${ingredient}`
     );
     const data: MealsResponse = await response.json();
-    return data.meals ?? [];
+    const meals = returnOrThrow(data);
+    return meals;
   },
 };
+
+function returnOrThrow(data: MealsResponse): Meal[] {
+  if (data.meals === null) {
+    return [];
+  }
+  if (typeof data.meals === "string") {
+    throw new Error(data.meals);
+  }
+  return data.meals;
+}
 
 export interface Meal {
   idMeal: string;
@@ -125,7 +142,7 @@ export interface Meal {
 }
 
 export interface MealsResponse {
-  meals: Meal[] | null;
+  meals: Meal[] | null | string;
 }
 
 export interface IngredientsResponse {

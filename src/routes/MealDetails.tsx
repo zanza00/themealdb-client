@@ -5,7 +5,7 @@ import { useLoaderData } from "react-router";
 
 
 export function MealDetails() {
-  const { meal } = useLoaderData() as { meal: Meal };
+  const { meal } = useLoaderData<{ meal: Meal }>();
 
   return (
     <Box maxW="4xl" mx="auto" p={4}>
