@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { mealService } from "../services/mealService";
 import type { Meal } from "../services/mealService";
 import { Box, Input, Grid, Text, Skeleton, Flex } from "@chakra-ui/react";
-import { MealCard } from "./MealCard";
+import { MealCard } from "../components/MealCard";
 import { useSearchParams } from "react-router";
 
 export function MealSearch() {
