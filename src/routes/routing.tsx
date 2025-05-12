@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router";
 import { Root } from "./Root";
 import { MealSearch } from "./MealSearch";
 import { MealDetails } from "./MealDetails";
-import { mealService, type Meal } from "../services/mealService";
+import { mealService } from "../services/mealService";
 
 const basePath = import.meta.env.DEV ? "/" : "/themealdb-client/";
 
