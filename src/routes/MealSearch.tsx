@@ -5,6 +5,7 @@ import { Box, Input, Grid, Text, Skeleton, Flex } from "@chakra-ui/react";
 import { MealCard } from "../components/MealCard";
 import { useSearchParams } from "react-router";
 import { useMemo } from "react";
+import { MealGrid } from "../components/MealGrid";
 
 export function MealSearch() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -78,18 +79,7 @@ export function MealSearch() {
         <Text textAlign="center">No recipes found</Text>
       )}
 
-      <Grid
-        templateColumns={{
-          base: "1fr",
-          md: "repeat(2, 1fr)",
-          lg: "repeat(3, 1fr)",
-        }}
-        gap={4}
-      >
-        {meals?.map((meal: Meal) => (
-          <MealCard key={meal.idMeal} meal={meal} />
-        ))}
-      </Grid>
+      <MealGrid meals={meals} />
     </Box>
   );
 }

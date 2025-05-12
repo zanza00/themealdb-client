@@ -61,13 +61,18 @@ export const mealService = {
     return data.meals ?? [];
   },
 
-  getMealsByAreaCategoryIngredient: async (
-    area: string,
-    category: string,
-    ingredient: string
-  ): Promise<Meal[]> => {
+  getMealsByAreaCategoryIngredient: async (filters: {
+    area?: string;
+    category?: string;
+    ingredient?: string;
+  }): Promise<Meal[]> => {
+    const searchParams = new URLSearchParams();
+    if (filters.area) searchParams.set("a", filters.area);
+    if (filters.category) searchParams.set("c", filters.category);
+    if (filters.ingredient) searchParams.set("i", filters.ingredient);
+
     const response = await fetch(
-      `${BASE_URL}/filter.php?a=${area}&c=${category}&i=${ingredient}`
+      `${BASE_URL}/filter.php?${searchParams.toString()}`
     );
     const data: MealsResponse = await response.json();
     const meals = returnOrThrow(data);

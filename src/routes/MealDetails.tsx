@@ -1,8 +1,6 @@
 import { Box, Image, VStack, Heading, Text } from "@chakra-ui/react";
-import type { Meal } from "../services/mealService";
+import { type Meal } from "../services/mealService";
 import { useLoaderData } from "react-router";
-
-
 
 export function MealDetails() {
   const { meal } = useLoaderData<{ meal: Meal }>();
@@ -23,18 +21,22 @@ export function MealDetails() {
 
         <VStack align="start" gap={4}>
           <Heading size="xl">{meal.strMeal}</Heading>
-          
+
           <Box>
             <VStack align="start" gap={2}>
               {meal.strCategory && (
                 <Text fontSize="md">
-                  <Text as="span" fontWeight="bold">Category: </Text>
+                  <Text as="span" fontWeight="bold">
+                    Category:{" "}
+                  </Text>
                   {meal.strCategory}
                 </Text>
               )}
               {meal.strArea && (
                 <Text fontSize="md">
-                  <Text as="span" fontWeight="bold">Cuisine: </Text>
+                  <Text as="span" fontWeight="bold">
+                    Cuisine:{" "}
+                  </Text>
                   {meal.strArea}
                 </Text>
               )}
@@ -43,14 +45,18 @@ export function MealDetails() {
 
           {meal.strInstructions && (
             <Box>
-              <Heading size="md" mb={2}>Instructions</Heading>
+              <Heading size="md" mb={2}>
+                Instructions
+              </Heading>
               <Text whiteSpace="pre-line">{meal.strInstructions}</Text>
             </Box>
           )}
 
           {meal.strTags && (
             <Box>
-              <Heading size="md" mb={2}>Tags</Heading>
+              <Heading size="md" mb={2}>
+                Tags
+              </Heading>
               <Text>{meal.strTags}</Text>
             </Box>
           )}

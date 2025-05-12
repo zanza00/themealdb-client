@@ -1,77 +1,81 @@
-import { createBrowserRouter, useRouteError } from "react-router";
+import { createBrowserRouter } from "react-router";
+import type { QueryClient } from "@tanstack/react-query";
+
 import { Root } from "./Root";
 import { MealSearch } from "./MealSearch";
 import { MealDetails } from "./MealDetails";
 import { mealService } from "../services/mealService";
-import { queryClient } from "../App";
-import { Box, Heading, Text, Container, Button } from "@chakra-ui/react";
+import { ErrorElement } from "../components/ErrorElement";
+import { NotFound } from "./NotFound";
+import { MealAdvancedSearch } from "./MealAdvancedSearch";
 
 const basePath = import.meta.env.DEV ? "/" : "/themealdb-client/";
 
-export const router = createBrowserRouter(
-  [
-    {
-      path: "/",
-      Component: Root,
-      errorElement: <ErrorElement />,
-      children: [
-        {
-          index: true,
-          Component: MealSearch,
-        },
-        {
-          path: "/meal/:id",
-          loader: async ({ params }) => {
-            if (!params.id) {
-              throw new Error("No id");
-            }
-            const meal = await mealService.getMealById(params.id);
-            return { meal };
+export const createRouter = (queryClient: QueryClient) =>
+  createBrowserRouter(
+    [
+      {
+        path: "/",
+        Component: Root,
+        errorElement: <ErrorElement />,
+        children: [
+          {
+            index: true,
+            Component: MealSearch,
           },
-          Component: MealDetails,
-        },
-      ],
-    },
-  ],
-  {
-    basename: basePath,
-  }
-);
+          {
+            path: "/meal/:id",
+            loader: async ({ params }) => {
+              const id = params.id;
+              if (!id) {
+                throw new Error("No id");
+              }
+              const data = await queryClient.ensureQueryData({
+                queryKey: ["meal", id],
+                queryFn: () => mealService.getMealById(id),
+                staleTime: 1000 * 60 * 60, // cache per 1 hour
+              });
 
-function ErrorElement() {
-  const error = useRouteError() as Error;
-  
-  return (
-    <Container maxW="container.md" py={10}>
-      <Box
-        p={8}
-        borderWidth="1px"
-        borderRadius="lg"
-        bg="red.50"
-        color="red.700"
-      >
-        <Heading as="h1" size="xl" mb={4}>
-          Oops! Something went wrong
-        </Heading>
-        <Text fontSize="lg" mb={6}>
-          {error.message}
-        </Text>
-        <Button
-          colorScheme="red"
-          onClick={() => window.location.href = "/"}
-        >
-          Go back to home
-        </Button>
-      </Box>
-    </Container>
+              return { meal: data };
+            },
+            Component: MealDetails,
+          },
+          {
+            path: "/advanced-search",
+            loader: async () => {
+              const categories = await queryClient.ensureQueryData({
+                queryKey: ["categories"],
+                queryFn: mealService.getCategories,
+              });
+
+              const areas = await queryClient.ensureQueryData({
+                queryKey: ["areas"],
+                queryFn: mealService.getAreas,
+              });
+
+              const ingredients = await queryClient.ensureQueryData({
+                queryKey: ["ingredients"],
+                queryFn: mealService.getIngredients,
+              });
+
+              return {
+                categories: categories.map((category) => category.strCategory),
+                areas: areas.map((area) => area.strArea),
+                ingredients: ingredients.map(
+                  (ingredient) => ingredient.strIngredient
+                ),
+              };
+            },
+            Component: MealAdvancedSearch,
+          },
+          {
+            path: "*",
+            Component: NotFound,
+          },
+        ],
+      },
+    ],
+    {
+      basename: basePath,
+    }
   );
-}
-
-export async function mealDetailsloader({ params }: { params: { id: string } }) {
-  const data = await queryClient.ensureQueryData({
-    queryKey: ["meal", params.id],
-    queryFn: () => mealService.getMealById(params.id),
-    staleTime: 1000 * 60 * 60, // cache per 1 hour
-  });
-  return data;
-}
