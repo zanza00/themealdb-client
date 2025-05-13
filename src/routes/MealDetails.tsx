@@ -1,4 +1,13 @@
-import { Box, Image, VStack, Heading, Text, IconButton, Dialog, Portal, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  Image,
+  VStack,
+  Heading,
+  Text,
+  IconButton,
+  Dialog,
+  Portal,
+} from "@chakra-ui/react";
 import { type Meal } from "../schemas/meal";
 import { useLoaderData } from "react-router";
 import { LuHeart, LuHeartOff } from "react-icons/lu";
@@ -7,7 +16,7 @@ import { useState } from "react";
 import { Tooltip } from "../components/ui/tooltip";
 
 export function MealDetails() {
-  const { meal } = useLoaderData<{ meal: Meal| undefined }>();
+  const { meal } = useLoaderData<{ meal: Meal | undefined }>();
   const { isFavourite, addFavourite, removeFavourite } = useFavouritesStore();
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
@@ -34,8 +43,12 @@ export function MealDetails() {
     <Box maxW="4xl" mx="auto" p={4}>
       <VStack gap={4} align="stretch">
         <Box position="relative">
-          <Tooltip 
-            content={isFavourite(meal.idMeal) ? "Remove from favorites" : "Add to favorites"} 
+          <Tooltip
+            content={
+              isFavourite(meal.idMeal)
+                ? "Remove from favorites"
+                : "Add to favorites"
+            }
             openDelay={200}
           >
             <IconButton
@@ -108,8 +121,8 @@ export function MealDetails() {
           )}
         </VStack>
 
-        <Dialog.Root 
-          open={isConfirmOpen} 
+        <Dialog.Root
+          open={isConfirmOpen}
           onOpenChange={(details) => setIsConfirmOpen(details.open)}
         >
           <Portal>
@@ -121,7 +134,8 @@ export function MealDetails() {
                 </Dialog.Header>
                 <Dialog.Body>
                   <Dialog.Description>
-                    Are you sure you want to remove {meal.strMeal} from your favorites?
+                    Are you sure you want to remove {meal.strMeal} from your
+                    favorites?
                   </Dialog.Description>
                 </Dialog.Body>
                 <Dialog.Footer>

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Box, Input, Grid, Text, Skeleton, Flex } from "@chakra-ui/react";
+import { Box, Input, Grid, Skeleton, Flex } from "@chakra-ui/react";
 
 import { mealService } from "../services/mealService";
 import { useSearchParams } from "react-router";
@@ -72,10 +72,6 @@ export function MealSearch() {
         >
           An error occurred during the search
         </Flex>
-      )}
-
-      {meals && meals.length === 0 && (
-        <Text textAlign="center">No recipes found</Text>
       )}
 
       <MealGrid meals={meals} />

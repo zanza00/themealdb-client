@@ -1,4 +1,4 @@
-import { Grid } from "@chakra-ui/react";
+import { Grid, Text } from "@chakra-ui/react";
 import { MealCard } from "./MealCard";
 import type { Meal } from "../schemas/meal";
 
@@ -16,9 +16,15 @@ export function MealGrid({ meals }: MealGridProps) {
       }}
       gap={4}
     >
-      {meals?.map((meal: Meal) => (
-        <MealCard key={meal.idMeal} meal={meal} />
-      ))}
+      {meals?.length === 0 ? (
+        <Text textAlign="center" color="gray.500" gridColumn="1/-1">
+          No meals found
+        </Text>
+      ) : (
+        meals?.map((meal: Meal) => (
+          <MealCard key={meal.idMeal} meal={meal} />
+        ))
+      )}
     </Grid>
   );
 }
