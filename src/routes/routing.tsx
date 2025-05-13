@@ -8,6 +8,7 @@ import { mealService } from "../services/mealService";
 import { ErrorElement } from "../components/ErrorElement";
 import { NotFound } from "./NotFound";
 import { MealAdvancedSearch } from "./MealAdvancedSearch";
+import { Favourites } from "./Favourites";
 
 const basePath = import.meta.env.DEV ? "/" : "/themealdb-client/";
 
@@ -67,6 +68,10 @@ export const createRouter = (queryClient: QueryClient) =>
               };
             },
             Component: MealAdvancedSearch,
+          },
+          {
+            path: "/favourites",
+            Component: Favourites,
           },
           {
             path: "*",
