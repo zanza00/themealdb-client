@@ -8,6 +8,7 @@ import {
   Dialog,
   Portal,
 } from "@chakra-ui/react";
+import { Tooltip } from "./ui/tooltip";
 import type { Meal } from "../schemas/meal";
 import { NavLink } from "react-router";
 import { LuHeart, LuHeartOff } from "react-icons/lu";
@@ -50,22 +51,27 @@ export function MealCard({ meal }: MealCardProps) {
         color="inherit"
         position="relative"
       >
-        <IconButton
-          aria-label={
-            isFavourite(meal.idMeal)
-              ? "Remove from favorites"
-              : "Add to favorites"
-          }
-          position="absolute"
-          top={2}
-          right={2}
-          onClick={handleFavoriteClick}
-          colorScheme={isFavourite(meal.idMeal) ? "red" : "gray"}
-          size="sm"
-          zIndex={1}
+        <Tooltip 
+          content={isFavourite(meal.idMeal) ? "Remove from favorites" : "Add to favorites"} 
+          openDelay={200}
         >
-          {isFavourite(meal.idMeal) ? <LuHeart /> : <LuHeartOff />}
-        </IconButton>
+          <IconButton
+            aria-label={
+              isFavourite(meal.idMeal)
+                ? "Remove from favorites"
+                : "Add to favorites"
+            }
+            position="absolute"
+            top={2}
+            right={2}
+            onClick={handleFavoriteClick}
+            colorScheme={isFavourite(meal.idMeal) ? "red" : "gray"}
+            size="sm"
+            zIndex={1}
+          >
+            {isFavourite(meal.idMeal) ? <LuHeartOff /> : <LuHeart />}
+          </IconButton>
+        </Tooltip>
 
         <Image
           src={meal.strMealThumb}

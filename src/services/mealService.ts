@@ -72,14 +72,12 @@ export const mealService = {
   },
 };
 
-
 function validateAndExtractMeals(data: MealsResponse): Meal[] {
   const validatedData = mealsResponseSchema.parse(data);
   return returnOrThrow(validatedData);
 }
 
 function returnOrThrow(data: MealsResponse): Meal[] {
-  console.log(data, "returnOrThrow");
   if (data.meals === null) {
     return [];
   }
