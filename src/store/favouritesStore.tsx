@@ -38,18 +38,20 @@ export const useFavouritesStore = create<FavouritesState>()(
       {
         name: "favourites-storage",
         storage: createJSONStorage(() => localStorage),
-        onRehydrateStorage: () => (state) => {
-          if (state) {
-            const result = favouritesStateSchema.safeParse(state);
-            if (!result.success) {
-              console.error("Invalid state rehydrated:", result.error, state);
-              return { favourites: [] };
-            }
-            console.log("Favourites rehydrated:", JSON.stringify(result.data));
-            return result.data;
-          }
-        },
+        onRehydrateStorage: () => (state) => validateStoredState(state),
       }
     )
   )
 );
+
+function validateStoredState(
+  state: unknown
+): { favourites: Meal[] } | undefined {
+  if (state) {
+    const result = favouritesStateSchema.safeParse(state);
+    if (!result.success) {
+      return { favourites: [] };
+    }
+    return result.data;
+  }
+}

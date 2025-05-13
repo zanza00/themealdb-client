@@ -3,7 +3,13 @@ import { type Meal } from "../schemas/meal";
 import { useLoaderData } from "react-router";
 
 export function MealDetails() {
-  const { meal } = useLoaderData<{ meal: Meal }>();
+  const { meal } = useLoaderData<{ meal: Meal| undefined }>();
+
+  console.log(meal, "meal");
+
+  if (!meal) {
+    return <div>Meal not found</div>;
+  }
 
   return (
     <Box maxW="4xl" mx="auto" p={4}>

@@ -16,49 +16,21 @@ export const mealService = {
   searchMeals: async (query: string): Promise<Meal[]> => {
     const response = await fetch(`${BASE_URL}/search.php?s=${query}`);
     const data = await response.json();
-    const validatedData = mealsResponseSchema.parse(data);
-    const meals = returnOrThrow(validatedData);
-    return meals;
+    return validateAndExtractMeals(data);
   },
 
   getMealById: async (id: string): Promise<Meal> => {
     const response = await fetch(`${BASE_URL}/lookup.php?i=${id}`);
     const data = await response.json();
-    const validatedData = mealsResponseSchema.parse(data);
-    const meal = returnOrThrow(validatedData);
-    return meal[0];
+    const meals = validateAndExtractMeals(data);
+    return meals[0];
   },
 
   getRandomMeal: async (): Promise<Meal> => {
     const response = await fetch(`${BASE_URL}/random.php`);
     const data = await response.json();
-    const validatedData = mealsResponseSchema.parse(data);
-    const meal = returnOrThrow(validatedData);
-    return meal[0];
-  },
-
-  getMealsByCategory: async (category: string): Promise<Meal[]> => {
-    const response = await fetch(`${BASE_URL}/filter.php?c=${category}`);
-    const data = await response.json();
-    const validatedData = mealsResponseSchema.parse(data);
-    const meals = returnOrThrow(validatedData);
-    return meals;
-  },
-
-  getMealsByArea: async (area: string): Promise<Meal[]> => {
-    const response = await fetch(`${BASE_URL}/filter.php?a=${area}`);
-    const data = await response.json();
-    const validatedData = mealsResponseSchema.parse(data);
-    const meals = returnOrThrow(validatedData);
-    return meals;
-  },
-
-  getMealsByIngredient: async (ingredient: string): Promise<Meal[]> => {
-    const response = await fetch(`${BASE_URL}/filter.php?i=${ingredient}`);
-    const data = await response.json();
-    const validatedData = mealsResponseSchema.parse(data);
-    const meals = returnOrThrow(validatedData);
-    return meals;
+    const meals = validateAndExtractMeals(data);
+    return meals[0];
   },
 
   getIngredients: async (): Promise<Ingredient[]> => {
@@ -96,13 +68,18 @@ export const mealService = {
       `${BASE_URL}/filter.php?${searchParams.toString()}`
     );
     const data = await response.json();
-    const validatedData = mealsResponseSchema.parse(data);
-    const meals = returnOrThrow(validatedData);
-    return meals;
+    return validateAndExtractMeals(data);
   },
 };
 
+
+function validateAndExtractMeals(data: MealsResponse): Meal[] {
+  const validatedData = mealsResponseSchema.parse(data);
+  return returnOrThrow(validatedData);
+}
+
 function returnOrThrow(data: MealsResponse): Meal[] {
+  console.log(data, "returnOrThrow");
   if (data.meals === null) {
     return [];
   }
