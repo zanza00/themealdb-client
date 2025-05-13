@@ -6,7 +6,7 @@ import {
   Text,
   IconButton,
 } from "@chakra-ui/react";
-import type { Meal } from "../services/mealService";
+import type { Meal } from "../schemas/meal";
 import { NavLink } from "react-router";
 import { LuHeart, LuHeartOff } from "react-icons/lu";
 import { useFavouritesStore } from "../store/favouritesStore";

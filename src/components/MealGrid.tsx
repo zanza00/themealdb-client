@@ -1,6 +1,6 @@
 import { Grid } from "@chakra-ui/react";
 import { MealCard } from "./MealCard";
-import type { Meal } from "../services/mealService";
+import type { Meal } from "../schemas/meal";
 
 interface MealGridProps {
   meals?: Meal[];

@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { devtools } from "zustand/middleware";
-import type { Meal } from "../services/mealService";
+import { mealSchema, type Meal } from "../schemas/meal";
+import { z } from "zod";
 
 interface FavouritesState {
   favourites: Meal[];
@@ -10,6 +11,10 @@ interface FavouritesState {
   isFavourite: (mealId: string) => boolean;
   getFavouritesCount: () => number;
 }
+
+const favouritesStateSchema = z.object({
+  favourites: z.array(mealSchema),
+});
 
 export const useFavouritesStore = create<FavouritesState>()(
   devtools(
@@ -34,7 +39,15 @@ export const useFavouritesStore = create<FavouritesState>()(
         name: "favourites-storage",
         storage: createJSONStorage(() => localStorage),
         onRehydrateStorage: () => (state) => {
-          console.log("Favourites rehydrated: state", JSON.stringify(state));
+          if (state) {
+            const result = favouritesStateSchema.safeParse(state);
+            if (!result.success) {
+              console.error("Invalid state rehydrated:", result.error, state);
+              return { favourites: [] };
+            }
+            console.log("Favourites rehydrated:", JSON.stringify(result.data));
+            return result.data;
+          }
         },
       }
     )

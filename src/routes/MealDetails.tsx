@@ -1,5 +1,5 @@
 import { Box, Image, VStack, Heading, Text } from "@chakra-ui/react";
-import { type Meal } from "../services/mealService";
+import { type Meal } from "../schemas/meal";
 import { useLoaderData } from "react-router";
 
 export function MealDetails() {
