@@ -22,9 +22,18 @@ export const useFavouritesStore = create<FavouritesState>()(
       (set, get) => ({
         favourites: [],
         addFavourite: (meal) =>
-          set((state) => ({
-            favourites: [...state.favourites, meal],
-          })),
+          set((state) => {
+            if (
+              state.favourites.some(
+                (favourite) => favourite.idMeal === meal.idMeal
+              )
+            ) {
+              return state;
+            }
+            return {
+              favourites: [...state.favourites, meal],
+            };
+          }),
         removeFavourite: (mealId) =>
           set((state) => ({
             favourites: state.favourites.filter(
