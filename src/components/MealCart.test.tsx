@@ -1,5 +1,5 @@
 import { expect, test, beforeEach } from "vitest";
-import { screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router";
 
@@ -182,4 +182,38 @@ test("toggles favorite button from 'Add to favorites' to 'Remove from favorites'
 
   expect(screen.getByLabelText("Remove from favorites")).toBeInTheDocument();
   expect(screen.queryByLabelText("Add to favorites")).not.toBeInTheDocument();
+});
+
+test("toggles favorite button from 'Remove from favorites' to 'Add to favorites' on click and confirmation", async () => {
+  const user = userEvent.setup();
+
+  useFavouritesStore.getState().addFavourite(meal);
+
+  render(
+    <MemoryRouter>
+      <MealCard meal={meal} />
+    </MemoryRouter>
+  );
+
+  const removeButtonOnCard = screen.getByLabelText("Remove from favorites");
+  expect(removeButtonOnCard).toBeInTheDocument();
+
+  await user.click(removeButtonOnCard);
+
+  const dialog = screen.getByRole("dialog", { name: /remove from favorites/i });
+  expect(dialog).toBeInTheDocument();
+
+  // ensure that we have a confirm button in the dialog and not the component because there is still the remove button on the card
+  const confirmRemoveButtonInDialog = within(dialog).getByRole("button", {
+    name: /remove/i,
+  });
+  expect(confirmRemoveButtonInDialog).toBeInTheDocument();
+
+  await user.click(confirmRemoveButtonInDialog);
+
+  // removed from the favorites, the add button should be present
+  expect(screen.getByLabelText("Add to favorites")).toBeInTheDocument();
+  expect(
+    screen.queryByRole("button", { name: "Remove from favorites" })
+  ).not.toBeInTheDocument();
 });
