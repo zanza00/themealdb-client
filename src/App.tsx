@@ -4,6 +4,7 @@ import { Provider } from "./components/ui/provider";
 import { ColorModeProvider } from "./components/ui/color-mode";
 import { RouterProvider } from "react-router";
 import { createRouter } from "./routes/routing";
+import { Toaster } from "./components/ui/toaster";
 
 const queryClient = new QueryClient();
 
@@ -12,6 +13,7 @@ function App() {
     <Provider>
       <ColorModeProvider>
         <QueryClientProvider client={queryClient}>
+          <Toaster />
           <RouterProvider router={createRouter(queryClient)} />
           <ReactQueryDevtools />
         </QueryClientProvider>

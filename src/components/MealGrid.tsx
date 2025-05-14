@@ -9,6 +9,7 @@ interface MealGridProps {
 export function MealGrid({ meals }: MealGridProps) {
   return (
     <Grid
+      data-testid="meal-grid"
       templateColumns={{
         base: "1fr",
         md: "repeat(2, 1fr)", 

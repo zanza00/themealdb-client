@@ -12,6 +12,7 @@ import { useLoaderData } from "react-router";
 import { mealService } from "../services/mealService";
 import { useQuery } from "@tanstack/react-query";
 import { MealGrid } from "../components/MealGrid";
+import { toaster } from "../components/ui/toaster";
 
 interface MealFilters {
   category?: string[];
@@ -20,7 +21,11 @@ interface MealFilters {
 }
 
 export function MealAdvancedSearch() {
-  const [filters, setFilters] = useState<MealFilters>({});
+  const [filters, setFilters] = useState<MealFilters>({
+    area: [],
+    category: [],
+    ingredient: [],
+  });
 
   const { categories, areas, ingredients } = useLoaderData<{
     categories: string[];
@@ -64,6 +69,18 @@ export function MealAdvancedSearch() {
   });
 
   const handleSearch = () => {
+    if (
+      filters.area?.length === 0 &&
+      filters.category?.length === 0 &&
+      filters.ingredient?.length === 0
+    ) {
+      toaster.create({
+        title: "Invalid Search",
+        description: "Please select at least one filter before searching.",
+        type: "warning",
+      });
+      return;
+    }
     mealsFilters.refetch();
   };
 
@@ -82,7 +99,7 @@ export function MealAdvancedSearch() {
           <Select.HiddenSelect />
           <Select.Label>Category</Select.Label>
           <Select.Control>
-            <Select.Trigger>
+            <Select.Trigger data-testid="category-select-trigger">
               <Select.ValueText placeholder="Select category" />
             </Select.Trigger>
             <Select.IndicatorGroup>
@@ -115,7 +132,7 @@ export function MealAdvancedSearch() {
           <Select.HiddenSelect />
           <Select.Label>Area</Select.Label>
           <Select.Control>
-            <Select.Trigger>
+            <Select.Trigger data-testid="area-select-trigger">
               <Select.ValueText placeholder="Select area" />
             </Select.Trigger>
             <Select.IndicatorGroup>
@@ -148,7 +165,7 @@ export function MealAdvancedSearch() {
           <Select.HiddenSelect />
           <Select.Label>Main Ingredient</Select.Label>
           <Select.Control>
-            <Select.Trigger>
+            <Select.Trigger data-testid="ingredient-select-trigger">
               <Select.ValueText placeholder="Select ingredient" />
             </Select.Trigger>
             <Select.IndicatorGroup>

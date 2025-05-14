@@ -41,6 +41,7 @@ export function MealCard({ meal }: MealCardProps) {
   return (
     <NavLink to={`/meal/${meal.idMeal}`}>
       <Box
+        data-testid="meal-card"
         borderWidth="1px"
         borderRadius="lg"
         overflow="hidden"
