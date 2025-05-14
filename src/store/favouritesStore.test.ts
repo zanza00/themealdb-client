@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test } from "vitest";
-import { useFavouritesStore } from "./favouritesStore";
+import { exportedForTest, useFavouritesStore } from "./favouritesStore";
 import type { Meal } from "../schemas/meal";
 
 const mockMeal: Meal = {
@@ -132,8 +132,7 @@ describe("useFavouritesStore", () => {
   });
 
   test("addFavourite should add a meal to favourites", () => {
-    const { addFavourite, getFavouritesCount } =
-      useFavouritesStore.getState();
+    const { addFavourite, getFavouritesCount } = useFavouritesStore.getState();
     addFavourite(mockMeal);
     const favourites = useFavouritesStore.getState().favourites;
     expect(favourites).toContainEqual(mockMeal);
@@ -187,5 +186,20 @@ describe("useFavouritesStore", () => {
     expect(getFavouritesCount()).toBe(1);
     addFavourite(mockMeal2);
     expect(getFavouritesCount()).toBe(2);
+  });
+});
+
+describe("validateStoredState", () => {
+  test("should return undefined for invalid state", () => {
+    const invalidState = { favourites: "invalid" }
+
+    const result = exportedForTest.validateStoredState(invalidState);
+    expect(result).toBeUndefined();
+  });
+
+  test("should return the state for valid state", () => {
+    const validState = { favourites: [mockMeal] };
+    const result = exportedForTest.validateStoredState(validState);
+    expect(result).toEqual({ favourites: [mockMeal] });
   });
 });

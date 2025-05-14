@@ -59,8 +59,13 @@ function validateStoredState(
   if (state) {
     const result = favouritesStateSchema.safeParse(state);
     if (!result.success) {
-      return { favourites: [] };
+      return undefined;
     }
     return result.data;
   }
+}
+
+// exported for testing, mocking the localstorage is a pain
+export const exportedForTest = {
+  validateStoredState,
 }
