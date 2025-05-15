@@ -149,7 +149,7 @@ npm run test
 To run the Playwright E2E tests:
 
 ```bash
-test:e2e
+npm run test:e2e
 ```
 
 To run a single test in UI mode
