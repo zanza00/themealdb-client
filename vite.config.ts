@@ -10,6 +10,14 @@ export default defineConfig(({ command }) => {
       globals: true,
       environment: 'jsdom',
       setupFiles: './vitest.setup.ts',
+      exclude: [
+        'node_modules',
+        'dist',
+        '.idea',
+        '.git',
+        '.cache',
+        'tests/**' 
+      ]
     },
   }
   return config
