@@ -1,54 +1,83 @@
-# React + TypeScript + Vite
+# TheMealDB Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Table of Contents
 
-Currently, two official plugins are available:
+- [Overview](#overview)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running the Project](#running-the-project)
+- [Testing](#testing)
+  - [Running Vitest Tests](#running-vitest-tests)
+  - [Running Playwright Tests](#running-playwright-tests)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Overview
 
-## Expanding the ESLint configuration
+This project is a client application for [TheMealDB.com](https://www.themealdb.com/), an open, crowd-sourced database of recipes from around the world. It allows users to browse, search, and manage their favorite meals.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+You can see a live version of the client at: [https://zanzapla.net/themealdb-client/](https://zanzapla.net/themealdb-client/)
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Features
+
+- **Search Meals**:
+  - By name
+  - By category, culinary area (cusine) or main ingredient
+- **Favorite Meals**:
+  - Save your favorite meals.
+  - View your list of saved favorite meals.
+
+## Technologies Used
+
+- React
+- TypeScript
+- Chakra UI
+- Zustand
+- Vite
+- Vitest (for unit/integration testing)
+- Playwright (for end-to-end testing)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (version 22)
+- npm
+
+### Installation
+
+1. Install dependencies:
+```bash
+npm install
+````
+
+### Running the Project
+
+To start the development server:
+
+```bash
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open your browser and navigate to `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Testing
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+This project uses Vitest for unit tests, and Playwright for end-to-end tests.
+
+### Running Vitest Tests
+
+To run the Vitest tests:
+
+```bash
+npm run test
+```
+
+### Running Playwright Tests
+
+To run the Playwright E2E tests:
+
+```bash
+test:e2e
 ```
