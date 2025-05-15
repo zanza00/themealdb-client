@@ -35,7 +35,7 @@ You can see a live version of the client at: [https://zanzapla.net/themealdb-cli
 - Chakra UI
 - Zustand
 - Vite
-- Vitest (for unit/integration testing)
+- Vitest (for unit testing)
 - Playwright (for end-to-end testing)
 
 ## Getting Started
@@ -52,7 +52,7 @@ You can see a live version of the client at: [https://zanzapla.net/themealdb-cli
 npm install
 ```
 
-2. Install Playwright browser (for end-to-end tests)
+2. Install Playwright browsers (for end-to-end tests)
 ```bash
 npx playwright install
 ```
