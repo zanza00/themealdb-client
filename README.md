@@ -48,7 +48,7 @@ You can see a live version of the client at: [https://zanzapla.net/themealdb-cli
 - The application is designed primarily for desktop browsers, though some responsive design is present.
 - State management is handled by Zustand due to its simplicity.
   - Also for the persist middleware that simplyfy a lot the saving and restoring of the favourites (with versioning of the storage shape/schema).
-- Chakra UI was chosen becouse I never used it before and I wanted to try it.
+- Chakra UI was chosen becouse I did previously analyzed for a previous project but never used it, but i liked its approach to component and style.
   - I used it in a very vanilla way, without any customisation.
   - The dark/light mode and toaster came from initializing the chakraui package.
 - Zod is used for "frontier" validation. (API and localstorage).
@@ -58,7 +58,7 @@ You can see a live version of the client at: [https://zanzapla.net/themealdb-cli
 
 - In the homepage the user can search only by name.
 - It is basically a frontend for /search.php endpoint.
-- The search is done as soon as the first letter, a debounce is not used by it will be an area of future improvement.
+- The search is done as soon as the first letter, a debounce is not used due to time constraints. It's an area of future improvement.
 - React query handles the caching of the data. It's for one hour to avoid hammering the API.
 - There is a skeleton for loading state.
 - The user can save a meal as favorite.
@@ -73,7 +73,7 @@ You can see a live version of the client at: [https://zanzapla.net/themealdb-cli
 ### Meal Details
 
 - This is a simple frontend for /lookup.php endpoint.
-- The ingridient are gathered with an ugly function, I'm sure there is a better way to do this.
+- The ingredients are extracted with a function to change the API response to a more usable format.
 - The user can save a meal as favorite.
 
 ### Favorites
@@ -98,7 +98,6 @@ You can see a live version of the client at: [https://zanzapla.net/themealdb-cli
 
 - First time I've used Github Actions.
 - it autodeploys to zanzapla.net/themealdb-client/ 
-    - my forever in costruction personal website, I am scared to move my personal website to simonepicciani.it due to DNS
 - I've not tryied to setup tests before running the build, it's a good idea for the future.
 
 
