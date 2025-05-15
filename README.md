@@ -42,7 +42,7 @@ You can see a live version of the client at: [https://zanzapla.net/themealdb-cli
 
 ### Prerequisites
 
-- Node.js (version 22)
+- Node.js (tested with version 22, it might work with other versions)
 - npm
 
 ### Installation
@@ -50,7 +50,12 @@ You can see a live version of the client at: [https://zanzapla.net/themealdb-cli
 1. Install dependencies:
 ```bash
 npm install
-````
+```
+
+2. Install Playwright browser (for end-to-end tests)
+```bash
+npx playwright install
+```
 
 ### Running the Project
 
@@ -81,3 +86,10 @@ To run the Playwright E2E tests:
 ```bash
 test:e2e
 ```
+
+To run a single test in UI mode 
+
+```bash
+npx playwright test tests/<test-file-name>.spec.ts --ui
+```
+
