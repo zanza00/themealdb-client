@@ -7,6 +7,7 @@ import {
   IconButton,
   Dialog,
   Portal,
+  Table,
 } from "@chakra-ui/react";
 import { type Meal } from "../schemas/meal";
 import { useLoaderData } from "react-router";
@@ -23,6 +24,8 @@ export function MealDetails() {
   if (!meal) {
     return <div>Meal not found</div>;
   }
+
+  const ingredients = getIngredients(meal);
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -102,6 +105,30 @@ export function MealDetails() {
             </VStack>
           </Box>
 
+          {ingredients.length > 0 && (
+            <Box w="100%">
+              <Heading size="md" mb={2}>
+                Ingredients
+              </Heading>
+              <Table.Root size="md">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeader>Ingredient</Table.ColumnHeader>
+                    <Table.ColumnHeader>Measure</Table.ColumnHeader>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {ingredients.map((item, index) => (
+                    <Table.Row key={index}>
+                      <Table.Cell>{item.ingredient}</Table.Cell>
+                      <Table.Cell>{item.measure}</Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table.Root>
+            </Box>
+          )}
+
           {meal.strInstructions && (
             <Box>
               <Heading size="md" mb={2}>
@@ -166,3 +193,20 @@ export function MealDetails() {
     </Box>
   );
 }
+
+function getIngredients(meal: Meal) {
+  // ugly implementatin, I'm sure there is a better way to do this
+  const ingredients = [];
+  for (let i = 1; i <= 20; i++) {
+    const ingredient = meal[`strIngredient${i}` as keyof Meal] as string;
+    const measure = meal[`strMeasure${i}` as keyof Meal] as string;
+    if (ingredient && ingredient.trim() !== "") {
+      ingredients.push({ ingredient, measure: measure ?? "" });
+    }
+  }
+  return ingredients;
+}
+
+export const exportedForTest = {
+  getIngredients,
+};
